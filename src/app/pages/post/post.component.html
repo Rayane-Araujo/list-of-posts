@@ -19,19 +19,24 @@
           <button (click)="openEditDialog(post)" class="bg-blue-500 text-white px-4 py-2 text-sm rounded-md hover:bg-blue-600 transition duration-200 mb-2">
             Editar
           </button>
-          
+
           <button (click)="openDeleteDialog(post.id)" class="bg-red-500 text-white px-3 py-2 text-sm rounded-md hover:bg-red-600 transition duration-200">
             Excluir
+          </button>
+
+          <button (click)="toggleComments(post.id)" class="bg-gray-500 text-white px-3 py-2 text-sm rounded-md hover:bg-gray-600 transition duration-200">
+            Ver Comentários
           </button>
         </td>
       </tr>
     </tbody>
   </table>
 
+  <!-- Modal de Adicionar Post -->
   <div *ngIf="isAddModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
     <div class="bg-white p-6 rounded shadow-lg w-1/3">
       <h2 class="text-xl font-semibold mb-4">Adicionar Novo Post</h2>
-      <input  [(ngModel)]="newPost.title" class="w-full mb-4 p-2 border rounded" placeholder="Título" />
+      <input [(ngModel)]="newPost.title" class="w-full mb-4 p-2 border rounded" placeholder="Título" />
       <textarea [(ngModel)]="newPost.body" class="w-full mb-4 p-2 border rounded" placeholder="Descrição do Post"></textarea>
       <div class="flex justify-between">
         <button (click)="addPost()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Adicionar</button>
@@ -40,11 +45,12 @@
     </div>
   </div>
 
+  <!-- Modal de Edição do Post -->
   <div *ngIf="editingPost" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
     <div class="bg-white p-6 rounded shadow-lg w-1/3">
       <h2 class="text-xl font-semibold mb-4">Editar Post</h2>
       <input [(ngModel)]="editingPost.title" class="w-full mb-4 p-2 border rounded" placeholder="Título" />
-      <textarea  [(ngModel)]="editingPost.body" class="w-full mb-4 p-2 border rounded" placeholder="Descrição do Post"></textarea>
+      <textarea [(ngModel)]="editingPost.body" class="w-full mb-4 p-2 border rounded" placeholder="Descrição do Post"></textarea>
       <div class="flex justify-between">
         <button (click)="saveEdit()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Salvar</button>
         <button (click)="closeEditDialog()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar</button>
@@ -52,12 +58,74 @@
     </div>
   </div>
 
+  <!-- Modal de Exclusão do Post -->
   <div *ngIf="isDeleteModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
     <div class="bg-white p-6 rounded shadow-lg w-1/3">
       <h2 class="text-xl font-semibold mb-4">Tem certeza que deseja excluir?</h2>
       <div class="flex justify-between">
         <button (click)="deletePost()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Excluir</button>
         <button (click)="closeDeleteDialog()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seção de Comentários -->
+  <div *ngIf="selectedPost?.id">
+    <h2 class="text-2xl mt-6 mb-4">Comentários</h2>
+    <button *ngIf="showButton" (click)="scrollToSection('targetSection')" class="scroll-top-button" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mb-4">
+      Adicionar Comentário
+    </button>
+
+    <div *ngFor="let comment of comments">
+      <div class="border p-4 mb-2">
+        <p><strong>{{ comment.name }}</strong> ({{ comment.email }})</p>
+        <p>{{ comment.body }}</p>
+        <button (click)="openEditCommentDialog(comment)" class="bg-blue-500 text-white px-4 py-2 text-sm rounded-md hover:bg-blue-600 transition duration-200 mb-2">
+          Editar
+        </button>
+        <button (click)="deleteComment(comment.id)" class="bg-red-500 text-white px-4 py-2 text-sm rounded-md hover:bg-red-600 transition duration-200">
+          Excluir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Adicionar Comentário -->
+  <div *ngIf="isAddCommentModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div class="bg-white p-6 rounded shadow-lg w-1/3">
+      <h2 class="text-xl font-semibold mb-4">Adicionar Comentário</h2>
+      <input [(ngModel)]="newComment.name" class="w-full mb-4 p-2 border rounded" placeholder="Nome" />
+      <textarea  id="targetSection" class="section" [(ngModel)]="newComment.body" class="w-full mb-4 p-2 border rounded" placeholder="Comentário"></textarea>
+      <div class="flex justify-between">
+        <button (click)="addComment()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Adicionar</button>
+        <button (click)="closeAddCommentDialog()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Edição do Comentário -->
+  <div *ngIf="editingComment" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div class="bg-white p-6 rounded shadow-lg w-1/3">
+      <h2 class="text-xl font-semibold mb-4">Editar Comentário</h2>
+      <input [(ngModel)]="editingComment.name" class="w-full mb-4 p-2 border rounded" placeholder="Nome" />
+      <textarea [(ngModel)]="editingComment.body" class="w-full mb-4 p-2 border rounded" placeholder="Comentário"></textarea>
+      <div class="flex justify-between">
+        <button (click)="saveCommentEdit()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Salvar</button>
+        <button (click)="closeEditCommentDialog()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Exclusão do Comentário -->
+  <div *ngIf="isDeleteCommentModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div class="bg-white p-6 rounded shadow-lg w-1/3">
+      <h2 class="text-xl font-semibold mb-4">Tem certeza que deseja excluir este comentário?</h2>
+      <div class="flex justify-between">
+        <button (click)="deleteComment(comment.id)" class="bg-red-500 text-white px-3 py-2 text-sm rounded-md hover:bg-red-600 transition duration-200">
+          Excluir
+        </button>
+        
+        <button (click)="closeDeleteCommentDialog()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar</button>
       </div>
     </div>
   </div>
