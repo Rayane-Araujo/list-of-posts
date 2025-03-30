@@ -1,23 +1,64 @@
 <div class="container mx-auto p-4">
   <h1 class="text-3xl font-bold mb-6">Lista de Posts</h1>
 
+  <button (click)="openAddDialog()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mb-4">Adicionar Post</button>
+
   <table class="min-w-full table-auto border-collapse border border-gray-200">
     <thead>
       <tr class="bg-gray-100">
         <th class="px-4 py-2 border-b text-left">Título</th>
         <th class="px-4 py-2 border-b text-left">Descrição do Post</th>
-        <th class="px-20 py-2 border-b text-left">Ações</th>
+        <th class="px-4 py-2 border-b text-left">Ações</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="px-4 py-2 border-b"></td>
-        <td class="px-4 py-2 border-b"></td>
+      <tr *ngFor="let post of posts">
+        <td class="px-4 py-2 border-b">{{ post.title }}</td>
+        <td class="px-4 py-2 border-b">{{ post.body }}</td>
         <td class="px-4 py-2 border-b">
-          <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Editar</button>
-          <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 ml-2">Excluir</button>
+          <button (click)="openEditDialog(post)" class="bg-blue-500 text-white px-4 py-2 text-sm rounded-md hover:bg-blue-600 transition duration-200 mb-2">
+            Editar
+          </button>
+          
+          <button (click)="openDeleteDialog(post.id)" class="bg-red-500 text-white px-3 py-2 text-sm rounded-md hover:bg-red-600 transition duration-200">
+            Excluir
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <div *ngIf="isAddModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div class="bg-white p-6 rounded shadow-lg w-1/3">
+      <h2 class="text-xl font-semibold mb-4">Adicionar Novo Post</h2>
+      <input  [(ngModel)]="newPost.title" class="w-full mb-4 p-2 border rounded" placeholder="Título" />
+      <textarea [(ngModel)]="newPost.body" class="w-full mb-4 p-2 border rounded" placeholder="Descrição do Post"></textarea>
+      <div class="flex justify-between">
+        <button (click)="addPost()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Adicionar</button>
+        <button (click)="closeAddDialog()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="editingPost" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div class="bg-white p-6 rounded shadow-lg w-1/3">
+      <h2 class="text-xl font-semibold mb-4">Editar Post</h2>
+      <input [(ngModel)]="editingPost.title" class="w-full mb-4 p-2 border rounded" placeholder="Título" />
+      <textarea  [(ngModel)]="editingPost.body" class="w-full mb-4 p-2 border rounded" placeholder="Descrição do Post"></textarea>
+      <div class="flex justify-between">
+        <button (click)="saveEdit()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Salvar</button>
+        <button (click)="closeEditDialog()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isDeleteModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div class="bg-white p-6 rounded shadow-lg w-1/3">
+      <h2 class="text-xl font-semibold mb-4">Tem certeza que deseja excluir?</h2>
+      <div class="flex justify-between">
+        <button (click)="deletePost()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Excluir</button>
+        <button (click)="closeDeleteDialog()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar</button>
+      </div>
+    </div>
+  </div>
 </div>
