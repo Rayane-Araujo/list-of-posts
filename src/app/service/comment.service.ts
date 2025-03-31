@@ -15,12 +15,14 @@ interface Comment {
 })
 
 export class CommentService {
-  createComment(commentToAdd: { postId: any; id: any; name: string; email: string; body: string; }) {
-    throw new Error('Method not implemented.');
-  }
+
   private apiUrl = 'https://jsonplaceholder.typicode.com/comments';
 
   constructor(private http: HttpClient) {}
+  
+  createComment(commentToAdd: { postId: any; id: any; name: string; email: string; body: string; }) {
+    throw new Error('Method not implemented.');
+  }
 
   getComments(postId: number): Observable<Comment[]> {
     return this.http.get<Comment[]>(`${this.apiUrl}?postId=${postId}`);

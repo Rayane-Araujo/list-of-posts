@@ -67,8 +67,8 @@ throw new Error('Method not implemented.');
   editingComment: Comment | null = null;
   newComment: Comment = { id: 0, postId: 0, name: '', email: '', body: '' };
   post: any;
-isDeleteCommentModalOpen: any;
-comment: any;
+  isDeleteCommentModalOpen: any;
+  comment: any;
 
   constructor(private postService: PostService, private commentService: CommentService) {}
 
