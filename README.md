@@ -1,27 +1,46 @@
 # Lista de posts
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.14.
+## Sobre o Projeto
 
-## Development server
+Projeto frontend CRUD de posts desenvolvido em Angular 17, que permite aos usuários interagir podendo adicionar, editar ou deletar um post.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Funcionalidades
 
-## Code scaffolding
+- **CRUD - Create, Read, Update e Delete**: Os usuários podem adicionar um post, editar ou deletar clicando nos botões específicos de cada post.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+## Pré-requisitos
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Node.js
+- npm (Node Package Manager)
 
-## Running unit tests
+## Iniciando  o Projeto
+Para iniciar a Aplicação em sua máquina local, siga os passos abaixo:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Clone o repositório
+    
 
-## Running end-to-end tests
+    https://github.com/rayane-araujo/list-of-posts.git
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+    
 
-## Further help
+### Entre na pasta do projeto
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+    cd list-of-posts
+
+### Instale as dependências
+
+    npm install
+
+### Inicie a aplicação
+
+    ng s -o
+
+
+## Tecnologias Utilizadas
+
+ - [**Angular**](https://angular.dev/): Para construção da interface de usuário.
+   
+ - [**TypeScript**](https://www.typescriptlang.org/): Linguagem de programação que adiciona tipagem ao JavaScript.
+   
+ - [**Tailwind**](https://tailwindcss.com/): Um framework CSS voltado para utilidades, repleto de classes como flex , pt-4 , text-center e rotate-90 que podem ser compostas para criar qualquer design, diretamente no HTML.
